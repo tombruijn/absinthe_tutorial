@@ -15,7 +15,12 @@ config :blog, BlogWeb.Endpoint,
   secret_key_base: "oxuac8/0WnOgbiE17w/l47ZNzrpOKULZk3aiq+d6j3jvhgjeGizt7f9jcie37oJq",
   render_errors: [view: BlogWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Blog.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.PG2],
+  instrumenters: [Appsignal.Phoenix.Instrumenter]
+
+config :phoenix, :template_engines,
+  eex: Appsignal.Phoenix.Template.EExEngine,
+  exs: Appsignal.Phoenix.Template.ExsEngine
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,3 +30,5 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+import_config "appsignal.exs"

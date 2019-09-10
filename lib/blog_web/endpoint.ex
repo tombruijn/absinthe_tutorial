@@ -1,5 +1,25 @@
+defmodule AppsignalAbsinthePlug do
+  alias Appsignal.Transaction
+  use Appsignal.Instrumentation.Decorators
+
+  def init(_), do: nil
+
+  @decorate transaction_event("absinthe")
+  @path "/api" # Change my to your route's path
+  def call(%Plug.Conn{request_path: @path, method: "POST"} = conn, _) do
+    Transaction.set_action("POST " <> @path)
+    conn
+  end
+
+  def call(conn, _) do
+    conn
+  end
+end
+
 defmodule BlogWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :blog
+  use Appsignal.Phoenix
+  plug AppsignalAbsinthePlug # Add this line
 
   socket "/socket", BlogWeb.UserSocket
 

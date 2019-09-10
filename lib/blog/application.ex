@@ -15,6 +15,12 @@ defmodule Blog.Application do
       # Start your own worker by calling: Blog.Worker.start_link(arg1, arg2, arg3)
       # worker(Blog.Worker, [arg1, arg2, arg3]),
     ]
+    :ok = :telemetry.attach(
+      "appsignal-ecto-something",
+      [:blog, :repo, :query],
+      &Appsignal.Ecto.handle_event/4,
+      nil
+    )
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

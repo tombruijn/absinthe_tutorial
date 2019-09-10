@@ -44,3 +44,5 @@ config :blog, Blog.Repo,
   database: "blog_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :appsignal, :config, active: true
